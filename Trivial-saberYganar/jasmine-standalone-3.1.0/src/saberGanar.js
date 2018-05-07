@@ -70,7 +70,7 @@ function goingQuestions() {
     }
 }
 btn.addEventListener('click', goingQuestions);
-
+setInterval(goingQuestions, 20000)
 
 
 
