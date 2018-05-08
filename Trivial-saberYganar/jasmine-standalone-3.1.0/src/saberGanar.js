@@ -66,7 +66,11 @@ function goingQuestions() {
     if(i < questionsWithAnswers.length){
         boxQuestions.innerHTML = questionsWithAnswers[i].question;
         for(let x = 0; x < questionsWithAnswers[i].answers.length; x++){
-            boxQuestions.innerHTML += `<div><input type="radio" id="idanswer" class="answer">${questionsWithAnswers[i].answers[x].answer}</div>`;
+            boxQuestions.innerHTML += 
+            `<div>
+            <input type="radio" id="${questionsWithAnswers[i].answers[x].id}" name="options" class="answer" />
+            <label for="${questionsWithAnswers[i].answers[x].id}">${questionsWithAnswers[i].answers[x].answer}</label>
+            </div>`;
         }
         i++;
     }
@@ -76,16 +80,20 @@ setInterval(goingQuestions, 20000)
 
 //Seleccionar respuesta
 function selectAnswer() {
-    const checkAnswer  = document.querySelector('#idanswer');
-    // console.log(checkAnswer);checked
-    if(checkAnswer.checked == true)
+    const checkAnswer  = document.querySelector('.answer');
+    console.log(checkAnswer)
+    if(checkAnswer.checked == true){
         if (questionsWithAnswers.answers.isCorrect == true){
-            console.log('caca')
+            console.log('es truee')
         }
         else {
             console.log('NOUu')
         }
+    } else {
+        console.log('no es true')
+    }
 }
+
 btn.addEventListener('click', selectAnswer);
 
 } start();
