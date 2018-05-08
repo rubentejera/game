@@ -56,9 +56,15 @@ const questionsWithAnswers = [{
     ]
 }];
 
+
+
+
+
+
+
 const boxQuestions = document.querySelector('.questions');
 const btn          = document.querySelector('.btn');
-
+const btnNext      = document.querySelector('.btnNext');
 
 //Sucesión de preguntas cada 20 segundos o cada vez que das al botón.
 var i = 0;
@@ -67,33 +73,42 @@ function goingQuestions() {
         boxQuestions.innerHTML = questionsWithAnswers[i].question;
         for(let x = 0; x < questionsWithAnswers[i].answers.length; x++){
             boxQuestions.innerHTML += 
-            `<div>
-            <input type="radio" id="${questionsWithAnswers[i].answers[x].id}" name="options" class="answer" />
+            `<div class="checkboxBox">
+            <input type="radio" id="${questionsWithAnswers[i].answers[x].id}" name="options" class="answer" value="${questionsWithAnswers[i].answers[x].answer}"/>
             <label for="${questionsWithAnswers[i].answers[x].id}">${questionsWithAnswers[i].answers[x].answer}</label>
             </div>`;
         }
         i++;
     }
 }
-btn.addEventListener('click', goingQuestions);
+btnNext.addEventListener('click', goingQuestions);
 setInterval(goingQuestions, 20000)
+
+
 
 //Seleccionar respuesta
 function selectAnswer() {
-    const checkAnswer  = document.querySelector('.answer');
-    console.log(checkAnswer)
-    if(checkAnswer.checked == true){
-        if (questionsWithAnswers.answers.isCorrect == true){
-            console.log('es truee')
-        }
+    const checkAnswer  = document.querySelectorAll('.answer');
+    for (var i = 0; i< checkAnswer.length; i++) {
+        if (checkAnswer[i].checked == true){
+            console.log('entra en el if de que he hecho checked en esa opción')
+            console.log(checkAnswer[i].checked)
+            if (questionsWithAnswers.answers.isCorrect == true){
+                console.log('es truee')
+            }
+            else {
+                console.log('NOUu')
+            }
+        } 
         else {
-            console.log('NOUu')
+            console.log('no ha entrado en opción checked')
         }
-    } else {
-        console.log('no es true')
-    }
+     }
 }
 
+
+
 btn.addEventListener('click', selectAnswer);
+// btn.addEventListener('click', goingQuestions)
 
 } start();
