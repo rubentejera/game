@@ -59,12 +59,14 @@ const questionsWithAnswers = [{
 const boxQuestions = document.querySelector('.questions');
 const btn          = document.querySelector('.btn');
 
+
+//Sucesión de preguntas cada 20 segundos o cada vez que das al botón.
 var i = 0;
 function goingQuestions() {
     if(i < questionsWithAnswers.length){
         boxQuestions.innerHTML = questionsWithAnswers[i].question;
         for(let x = 0; x < questionsWithAnswers[i].answers.length; x++){
-            boxQuestions.innerHTML += `<div><input type= checkbox>${questionsWithAnswers[i].answers[x].answer}</div>`;
+            boxQuestions.innerHTML += `<div><input type="radio" id="idanswer" class="answer">${questionsWithAnswers[i].answers[x].answer}</div>`;
         }
         i++;
     }
@@ -72,6 +74,18 @@ function goingQuestions() {
 btn.addEventListener('click', goingQuestions);
 setInterval(goingQuestions, 20000)
 
-
+//Seleccionar respuesta
+function selectAnswer() {
+    const checkAnswer  = document.querySelector('#idanswer');
+    // console.log(checkAnswer);checked
+    if(checkAnswer.checked == true)
+        if (questionsWithAnswers.answers.isCorrect == true){
+            console.log('caca')
+        }
+        else {
+            console.log('NOUu')
+        }
+}
+btn.addEventListener('click', selectAnswer);
 
 } start();
