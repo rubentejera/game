@@ -67,6 +67,9 @@ const btn = document.querySelector('.btn');
 const btnNext = document.querySelector('.btnNext');
 let msg = document.querySelector('.message');
 
+let sumPoints;
+let seconds=0
+
 
 //Sucesión de preguntas cada 20 segundos o cada vez que das al botón.
 var i = 0;
@@ -88,7 +91,8 @@ function goingQuestions() {
 btnNext.addEventListener('click', goingQuestions);
 setInterval(goingQuestions, 20000)
 
-
+let totalPoints = 0;
+totalPoints=parseInt(totalPoints)
 
 //Seleccionar respuesta
 function readUserAnswer() { 
@@ -107,18 +111,57 @@ function readUserAnswer() {
 
     if (found.answers[optionChecked.id].isCorrect == true){
         console.log('BIEN')
-        msg.innerHTML = `<h3> ¡Correcta! </h3>`   
+        msg.innerHTML = `<h3> ¡Correcta! </h3>`
+        totalPoints + 2;
     }
     else {
         console.log('MAL')
         msg.innerHTML = `<h3> ¡Incorrecta! </h3>`
+        totalPoints - 2;
+        
     }
-
+    console.log(totalPoints)
 }
 
 
 
 btn.addEventListener('click', readUserAnswer);
 // btn.addEventListener('click', goingQuestions)
+
+
+// MARCADOR
+
+// let score = {
+// 	names:
+// 	[],
+// 	points:
+// 	[]
+// };
+
+
+// const btnSave=document.querySelector('.btnSave');
+// let scoreList=document.querySelector('.list');
+
+// btnSave.addEventListener('click', scoreAndName);
+
+// 	function scoreAndName () {
+// 		const name= document.querySelector('#inputNameId').value;
+
+// 		score.names.push(name);
+// 		// console.log(score);
+// 		let listNames= score.names;
+// 		// console.log(listName);
+// 		score.points.push(totalPoints);
+// 		console.log(score);
+// 		sumPoints= score.points;
+// 		console.log(sumPoints);
+// 		//Para que se guarden uno después de otro, se acumulen.
+// 		let add ='';
+// 		for (let i = 0;i < listNames.length; i++){
+// 			add+= `<li>${listNames[i]} - ${sumPoints} puntos </li>`;
+// 		};
+// 		scoreList.innerHTML= add;
+//     }
+
 
 } start();
