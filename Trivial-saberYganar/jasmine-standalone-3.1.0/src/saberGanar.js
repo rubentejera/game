@@ -63,16 +63,23 @@ function start() {
 
 
 const boxQuestions = document.querySelector('.questions');
-const btn = document.querySelector('.btn');
-const btnNext = document.querySelector('.btnNext');
-let msg = document.querySelector('.message');
+const btnSend      = document.querySelector('.btn');
+const btnNext      = document.querySelector('.btnNext');
+const btnStart     = document.querySelector('.btnStart')
+let msg            = document.querySelector('.message');
+let timer          = document.querySelector('.seconds');
+let totalPoints    = 0;
+let sumPoints;       
+let seconds        = 0;
+let i = 0;
+ goingQuestions();
+btnSend.disabled != true;
 
-let sumPoints;
-let seconds=0
 
 
-//Sucesión de preguntas cada 20 segundos o cada vez que das al botón.
-var i = 0;
+
+//SUCESIÓN DE PREGUNTAS cada 20 segundos o cada vez que das al botón.
+
 function goingQuestions() {
     if (i < questionsWithAnswers.length) {
         boxQuestions.innerHTML = 
@@ -80,30 +87,38 @@ function goingQuestions() {
         for (let x = 0; x < questionsWithAnswers[i].answers.length; x++) {
             boxQuestions.innerHTML +=
                 `<div class="checkboxBox">
-        <input type="radio" id="${questionsWithAnswers[i].answers[x].id}" name="options" class="answer" value="${questionsWithAnswers[i].answers[x].answer}"/>
+         <input type="radio" id="${questionsWithAnswers[i].answers[x].id}" name="options" class="answer" value="${questionsWithAnswers[i].answers[x].answer}"/>
         <label for="${questionsWithAnswers[i].answers[x].id}">${questionsWithAnswers[i].answers[x].answer}</label>
         </div>`;
         }
         i++;
     msg.innerHTML = '';    
-    }
+    }    
 }
-btnNext.addEventListener('click', goingQuestions);
-setInterval(goingQuestions, 20000)
 
-let totalPoints = 0;
-totalPoints=parseInt(totalPoints)
+setInterval(starTimer,1000)
+function starTimer() {
+    seconds++;
+    timer.innerHTML= seconds
+    if (seconds == 20) {
+        seconds = 0;
+        goingQuestions();
+    }
+} 
 
-//Seleccionar respuesta
+
+//SELECCIONAR RESPUESTA Y PUNTOS
 function readUserAnswer() { 
     const arrayRadioAnswers = document.querySelectorAll('.answer');
-    for (var i = 0; i < arrayRadioAnswers.length; i++) {
-        if (arrayRadioAnswers[i].checked) {
+    const actualPoints = document.querySelector('.actualPoints')
+    
+    for (let i = 0; i < arrayRadioAnswers.length; i++) {
+        if (arrayRadioAnswers[i].checked) {    
             var optionChecked = arrayRadioAnswers[i];
         }
     }
-    var found = questionsWithAnswers.find(function(question) {
-        var questionBox = document.querySelector('.questionBox');
+    let found = questionsWithAnswers.find(function(question) {
+        const questionBox = document.querySelector('.questionBox');
         if (question.id == questionBox.id){
             return question
         }
@@ -111,57 +126,95 @@ function readUserAnswer() {
 
     if (found.answers[optionChecked.id].isCorrect == true){
         console.log('BIEN')
-        msg.innerHTML = `<h3> ¡Correcta! </h3>`
-        totalPoints + 2;
+        msg.innerHTML = `<h3> ¡Correcta! </h3>`;
+        if (seconds <= 2) {
+            totalPoints += 2;
+        }
+        else if  (seconds >= 3 && seconds <= 10){
+            totalPoints += 1;
+        }
+        else {
+            totalPoints;
+        }
+        console.log(totalPoints)
+    }
+    else if (found.answers[optionChecked.id].isCorrect !== true) {
+        console.log('MAL')
+        msg.innerHTML = `<h3> ¡Incorrecta! </h3>`;
+        if (seconds >= 11) {
+            totalPoints -= 2;
+        }
+        else if  (seconds <= 10){
+            totalPoints -= 1;
+        }
+        console.log(totalPoints)
     }
     else {
-        console.log('MAL')
-        msg.innerHTML = `<h3> ¡Incorrecta! </h3>`
-        totalPoints - 2;
-        
+        totalPoints -=3; 
+        console.log(totalPoints) 
     }
-    console.log(totalPoints)
+    // actualPoints.innerHTML = ` ${totalPoints} puntos`
+    // console.log(totalPoints)
+    seconds = 0;
 }
 
+btnSend.addEventListener('click', readUserAnswer);
+btnSend.addEventListener('click',goingQuestions);
 
 
-btn.addEventListener('click', readUserAnswer);
-// btn.addEventListener('click', goingQuestions)
+
+// MARCADOR Se guardan los nombres y las puntuaciones de cada jugador
+let score = {
+    	names:
+    	[],
+    	points:
+    	[]
+};
 
 
-// MARCADOR
-
-// let score = {
-// 	names:
-// 	[],
-// 	points:
-// 	[]
-// };
+const btnSave = document.querySelector('.btnSave');
+let scoreList = document.querySelector('.list');
 
 
-// const btnSave=document.querySelector('.btnSave');
-// let scoreList=document.querySelector('.list');
+	function scoreAndName () {
 
-// btnSave.addEventListener('click', scoreAndName);
+		let name = document.querySelector('#inputNameId').value;
 
-// 	function scoreAndName () {
-// 		const name= document.querySelector('#inputNameId').value;
+		score.names.push(name);
+		// console.log(score);
+		let listNames = score.names;
+		// console.log(listNames);
+		score.points.push(totalPoints);
+		//console.log(score);
+		sumPoints = score.points;
+		console.log(sumPoints);
+		//Para que se guarden uno después de otro, se acumulen.
+		let add = '';
+		for (let i = 0;i < listNames.length; i++){
+            add += 
+            `<li class="eachBoxPlayer">
+                ${listNames[i]} - <div class="actualPoints"> ${sumPoints[i]} puntos </div> 
+            </li>`;
+		};
+        scoreList.innerHTML= add;
+        totalPoints=0;
+    }
 
-// 		score.names.push(name);
-// 		// console.log(score);
-// 		let listNames= score.names;
-// 		// console.log(listName);
-// 		score.points.push(totalPoints);
-// 		console.log(score);
-// 		sumPoints= score.points;
-// 		console.log(sumPoints);
-// 		//Para que se guarden uno después de otro, se acumulen.
-// 		let add ='';
-// 		for (let i = 0;i < listNames.length; i++){
-// 			add+= `<li>${listNames[i]} - ${sumPoints} puntos </li>`;
-// 		};
-// 		scoreList.innerHTML= add;
-//     }
+btnSave.addEventListener('click', scoreAndName);
+
+
+
+// function reset (){
+//     //Los inputs
+//     // document.querySelector('#box_number').value = "";
+//     let name = document.querySelector('#inputNameId').value= '';
+// ;
+//     //El marcador a 0 otra vez y las pistas
+//     totalPoints=0;
+
+//     // goingQuestions()
+// }
+// reset();
 
 
 } start();
