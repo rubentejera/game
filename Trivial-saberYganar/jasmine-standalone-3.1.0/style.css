@@ -17,3 +17,13 @@ body{
     grid-template-columns: 1fr 1fr
 
 }
+.btn,
+.btnNext {
+    margin-top: 15px;
+}
+.checkboxBox {
+    margin-top: 5px;
+}
+.questionBox {
+    margin-bottom: 10px;
+}
