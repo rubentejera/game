@@ -71,14 +71,21 @@ let msg            = document.querySelector('.message');
 let timer          = document.querySelector('.seconds');
 let nameBox        = document.querySelector('.nameBox')
 let totalPoints    = 0;
-let sumPoints;       
 let seconds        = 0;
+let sumPoints;       
+let inSetInterval;
 btnSend.disabled   = true;
-
-
-
 let i = 0;
- goingQuestions();
+
+
+
+ function startEverything(){
+    btnStart.classList.toggle('invisible')
+    btnSend.classList.toggle('invisible')
+    goingQuestions();
+    inSetInterval = setInterval(startTimer,1000)
+ }
+ btnStart.addEventListener('click',startEverything)
 
 //SUCESIÓN DE PREGUNTAS cada 20 segundos o cada vez que das al botón.
 //La función goingQuestion pinta las preguntas y las respuestas
@@ -97,13 +104,13 @@ function goingQuestions() {
         i++;
     msg.innerHTML = '';    
     } else {
-        nameBox.classList.toggle('invisible')
+        nameBox.classList.toggle('invisible');
     }   
 }
  //Set interval con la función startTimer para que cada segundo compruebe que los segundos no han llegado a 20. 
  //Si llega a 20 ejecuta la función de pintar las preguntas, es decir, pasa a la siguiente y resta 3 puntos.
  //También comprueba acada segundo si hay algún check seleccionado para habilitar el botón.
-setInterval(startTimer,1000)
+
 function startTimer() {
     btnSend.disabled = true;
     seconds++;
@@ -218,13 +225,26 @@ function reset (){
     totalPoints=0;
     let name = document.querySelector('#inputNameId').value = '';
     nameBox.classList.toggle('invisible');
-    i=0
-    goingQuestions()
     realP.innerHTML = ` ${totalPoints} puntos`
+    stopTimer();
+    timer.innerHTML = '';
+
 }
+function removeBoxQuestions(){
+    btnStart.classList.toggle('invisible');
+    btnSend.classList.toggle('invisible');
+    boxQuestions.classList.toggle('invisible');
+    msg.innerHTML='';
+ }
+ btnSave.addEventListener('click', removeBoxQuestions);
+ btnSave.addEventListener('click', stopTimer)
+
+ function stopTimer(){
+    clearInterval(inSetInterval);
+ }
 
 
 
 
 
-} start();
+}

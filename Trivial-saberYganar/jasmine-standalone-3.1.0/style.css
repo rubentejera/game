@@ -21,8 +21,14 @@ body{
 .btnNext {
     margin-top: 15px;
 }
+.list {
+    margin-top: 25px;
+    list-style:none;
+    text-align: left;
+}
 .checkboxBox {
     margin-top: 5px;
+
 }
 .questionBox {
     margin-bottom: 10px;
@@ -35,11 +41,18 @@ body{
 }
 .time,
 .seconds, 
-.realP,
-.bonus {
+.realP {
     display:inline;
     text-align: left;
 }
 .bonus {
     margin-left: 20px;
+    display:inline;
+    text-align: left;
+}
+.speed,
+.corrects,
+.incorrects {
+    text-align: left;
+    margin-left:15%;
 }

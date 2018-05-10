@@ -21,8 +21,8 @@
       <div class="message">
 
       </div>
-      <!-- <button class="btnStar">EMPEZAR</button> -->
-      <button class="btn">¡Dale!</button>
+      <button class="btnStart">EMPEZAR</button>
+      <button class="btn invisible">¡Dale!</button>
       <!-- <button class="btnNext">Siguiente pregunta</button> -->
     </div>
     <div class="scores"><h3>Marcadores</h3>
@@ -37,13 +37,20 @@
     </div>
    
 
-    <div class="stadistics"><h3>Estadísticas</h3></div>
+    <div class="stadistics"><h3>Estadísticas</h3>
+      <div class="speed">Velocidad promedio respondiendo:<div class="speedSeconds"></div></div>
+      <div class="corrects">Preguntas acertadas:<div class="correctNumber"></div></div>
+      <div class="incorrects">Preguntas falladas:<div class="incorrectNumber"></div></div>
+
+    </div>
+
     <div class="bonus">
-    <div class="time">Tiempo: <div class="seconds"></div></div>
-    <div class="realPoints">Puntos: <div class="realP"></div></div>
+      <div class="time">Tiempo: <div class="seconds"></div></div>
+      <div class="realPoints">Puntos: <div class="realP"></div></div>
   </div>
   </main>
   <script src="src/saberGanar.js"></script>
+  <script>start()</script>
 </body>
 
 </html>
