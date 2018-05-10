@@ -65,9 +65,11 @@ function start() {
 const boxQuestions = document.querySelector('.questions');
 const btnSend      = document.querySelector('.btn');
 const btnNext      = document.querySelector('.btnNext');
-const btnStart     = document.querySelector('.btnStart')
+const btnStart     = document.querySelector('.btnStart');
+const btnSave      = document.querySelector('.btnSave');
 let msg            = document.querySelector('.message');
 let timer          = document.querySelector('.seconds');
+let nameBox        = document.querySelector('.nameBox')
 let totalPoints    = 0;
 let sumPoints;       
 let seconds        = 0;
@@ -94,16 +96,18 @@ function goingQuestions() {
         }
         i++;
     msg.innerHTML = '';    
-    }    
+    } else {
+        nameBox.classList.toggle('invisible')
+    }   
 }
  //Set interval con la función startTimer para que cada segundo compruebe que los segundos no han llegado a 20. 
- //Si llega a 20 ejecuta la función de pintar las preguntas, es decir, pasa a la siguiente.
+ //Si llega a 20 ejecuta la función de pintar las preguntas, es decir, pasa a la siguiente y resta 3 puntos.
  //También comprueba acada segundo si hay algún check seleccionado para habilitar el botón.
 setInterval(startTimer,1000)
 function startTimer() {
     btnSend.disabled = true;
     seconds++;
-    timer.innerHTML= seconds
+    timer.innerHTML= `${seconds}`;
     if (seconds == 20) {
         seconds = 0;
         goingQuestions();
@@ -119,11 +123,11 @@ function startTimer() {
 
 } 
 
-
+let realP = document.querySelector('.realP');
 //SELECCIONAR RESPUESTA Y PUNTOS
 function readUserAnswer() { 
     const arrayRadioAnswers = document.querySelectorAll('.answer');
-    const actualPoints = document.querySelector('.actualPoints')
+    
     
     for (let i = 0; i < arrayRadioAnswers.length; i++) {
         if (arrayRadioAnswers[i].checked) {    
@@ -163,8 +167,8 @@ function readUserAnswer() {
         console.log(totalPoints)
     }
 
-    // actualPoints.innerHTML = ` ${totalPoints} puntos`
-    // console.log(totalPoints)
+    realP.innerHTML = ` ${totalPoints} puntos`
+    console.log(totalPoints)
     seconds = 0;
 }
 
@@ -182,49 +186,45 @@ let score = {
 };
 
 
-const btnSave = document.querySelector('.btnSave');
-let scoreList = document.querySelector('.list');
 
+function scoreAndName () {
+    let name = document.querySelector('#inputNameId').value;
+    let scoreList = document.querySelector('.list');
 
-	function scoreAndName () {
-
-		let name = document.querySelector('#inputNameId').value;
-
-		score.names.push(name);
-		// console.log(score);
-		let listNames = score.names;
-		// console.log(listNames);
-		score.points.push(totalPoints);
-		//console.log(score);
-		sumPoints = score.points;
-		console.log(sumPoints);
-		//Para que se guarden uno después de otro, se acumulen.
-		let add = '';
-		for (let i = 0;i < listNames.length; i++){
-            add += 
-            `<li class="eachBoxPlayer">
-                ${listNames[i]} - <div class="actualPoints"> ${sumPoints[i]} puntos </div> 
-            </li>`;
-		};
-        scoreList.innerHTML= add;
-        totalPoints=0;
-    }
+    score.names.push(name);
+    // console.log(score);
+    let listNames = score.names;
+    // console.log(listNames);
+    score.points.push(totalPoints);
+    //console.log(score);
+    sumPoints = score.points;
+    console.log(sumPoints);
+    //Para que se guarden uno después de otro, se acumulen.
+    let add = '';
+    for (let i = 0;i < listNames.length; i++){
+        add += 
+        `<li class="eachBoxPlayer">
+            ${listNames[i]} - <div class="actualPoints"> ${sumPoints[i]} puntos </div> 
+        </li>`;
+    };
+    scoreList.innerHTML= add;
+}
 
 btnSave.addEventListener('click', scoreAndName);
+btnSave.addEventListener('click', reset);
+
+
+function reset (){
+    totalPoints=0;
+    let name = document.querySelector('#inputNameId').value = '';
+    nameBox.classList.toggle('invisible');
+    i=0
+    goingQuestions()
+    realP.innerHTML = ` ${totalPoints} puntos`
+}
 
 
 
-// function reset (){
-//     //Los inputs
-//     // document.querySelector('#box_number').value = "";
-//     let name = document.querySelector('#inputNameId').value= '';
-// ;
-//     //El marcador a 0 otra vez y las pistas
-//     totalPoints=0;
-
-//     // goingQuestions()
-// }
-// reset();
 
 
 } start();

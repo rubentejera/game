@@ -33,3 +33,13 @@ body{
 .invisible {
     display: none;
 }
+.time,
+.seconds, 
+.realP,
+.bonus {
+    display:inline;
+    text-align: left;
+}
+.bonus {
+    margin-left: 20px;
+}
