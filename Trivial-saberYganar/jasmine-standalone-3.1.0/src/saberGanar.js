@@ -71,16 +71,16 @@ let timer          = document.querySelector('.seconds');
 let totalPoints    = 0;
 let sumPoints;       
 let seconds        = 0;
-
- goingQuestions();
 btnSend.disabled   = true;
 
 
 
+let i = 0;
+ goingQuestions();
 
 //SUCESIÓN DE PREGUNTAS cada 20 segundos o cada vez que das al botón.
 //La función goingQuestion pinta las preguntas y las respuestas
-let i = 0;
+
 function goingQuestions() {
     if (i < questionsWithAnswers.length) {
         boxQuestions.innerHTML = 
@@ -107,6 +107,8 @@ function startTimer() {
     if (seconds == 20) {
         seconds = 0;
         goingQuestions();
+        totalPoints -=3
+        console.log(totalPoints)
     }
     const arrayRadioAnswers = document.querySelectorAll('.answer');
     for (let i = 0; i < arrayRadioAnswers.length; i++) {
@@ -160,10 +162,7 @@ function readUserAnswer() {
         }
         console.log(totalPoints)
     }
-    else if (optionChecked = false) {
-        totalPoints -=3; 
-        console.log(totalPoints) 
-    }
+
     // actualPoints.innerHTML = ` ${totalPoints} puntos`
     // console.log(totalPoints)
     seconds = 0;
