@@ -71,15 +71,16 @@ let timer          = document.querySelector('.seconds');
 let totalPoints    = 0;
 let sumPoints;       
 let seconds        = 0;
-let i = 0;
+
  goingQuestions();
-btnSend.disabled != true;
+btnSend.disabled   = true;
 
 
 
 
 //SUCESIÓN DE PREGUNTAS cada 20 segundos o cada vez que das al botón.
-
+//La función goingQuestion pinta las preguntas y las respuestas
+let i = 0;
 function goingQuestions() {
     if (i < questionsWithAnswers.length) {
         boxQuestions.innerHTML = 
@@ -95,15 +96,25 @@ function goingQuestions() {
     msg.innerHTML = '';    
     }    
 }
-
-setInterval(starTimer,1000)
-function starTimer() {
+ //Set interval con la función startTimer para que cada segundo compruebe que los segundos no han llegado a 20. 
+ //Si llega a 20 ejecuta la función de pintar las preguntas, es decir, pasa a la siguiente.
+ //También comprueba acada segundo si hay algún check seleccionado para habilitar el botón.
+setInterval(startTimer,1000)
+function startTimer() {
+    btnSend.disabled = true;
     seconds++;
     timer.innerHTML= seconds
     if (seconds == 20) {
         seconds = 0;
         goingQuestions();
     }
+    const arrayRadioAnswers = document.querySelectorAll('.answer');
+    for (let i = 0; i < arrayRadioAnswers.length; i++) {
+        if (arrayRadioAnswers[i].checked) {    
+            btnSend.disabled = false;
+        }
+    }
+
 } 
 
 
@@ -149,7 +160,7 @@ function readUserAnswer() {
         }
         console.log(totalPoints)
     }
-    else {
+    else if (optionChecked = false) {
         totalPoints -=3; 
         console.log(totalPoints) 
     }
