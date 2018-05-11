@@ -61,32 +61,35 @@ const btnSave      = document.querySelector('.btnSave');
 let msg            = document.querySelector('.message');
 let timer          = document.querySelector('.seconds');
 let nameBox        = document.querySelector('.nameBox');
-let scoreUI = document.querySelector('.scoreUI');
+let scoreUI        = document.querySelector('.scoreUI');
 let totalPoints    = 0;
 let seconds        = 0;
+let i              = 0;
 let sumPoints;
 let listNames;
+let found;
+let optionChecked;
 let inSetInterval;
 btnSend.disabled   = true;
-let i = 0;
+
 
 
 //INICIALIZA el juego y el tiempo
+
 btnStart.addEventListener('click',onStart);
 function onStart() {
     btnStart.classList.toggle('invisible');
     btnSend.classList.toggle('invisible');
     boxQuestions.classList.remove('invisible');
     i = 0;
-    goingQuestions();
-    inSetInterval = setInterval(startTimer,1000)
-    }
+    paintQuestions();
+    inSetInterval = setInterval(startTimer, 1000) //El setInterval en una variable par luego utilizarla con el clearInterval
+}
 
 
-//SUCESIÓN DE PREGUNTAS cada 20 segundos o cada vez que das al botón.
-//La función goingQuestion pinta las preguntas y las respuestas
+//SUCESIÓN DE PREGUNTAS
 
-function goingQuestions() {
+function paintQuestions() {
     if (i < questionsWithAnswers.length) {
         boxQuestions.innerHTML =
         `<div class="questionBox" id="${questionsWithAnswers[i].id}">${questionsWithAnswers[i].question}</div>`;
@@ -101,23 +104,23 @@ function goingQuestions() {
     msg.innerHTML = '';
     } else {
         nameBox.classList.toggle('invisible');
-        btnSend.disabled   = true;
+        btnSend.disabled = true; //Se desabilita cuando llega al final de las preguntas 
         stopTimer()
     }
 }
-    //Set interval con la función startTimer para que cada segundo compruebe que los segundos no han llegado a 20.
-    //Si llega a 20 ejecuta la función de pintar las preguntas, es decir, pasa a la siguiente y resta 3 puntos.
+//Set interval con la función startTimer para que cada segundo compruebe que los segundos no han llegado a 20.
+//Si llega a 20 ejecuta la función de pintar las preguntas, es decir, pasa a la siguiente y resta 3 puntos.
 
 function startTimer() {
     seconds++;
     timer.innerHTML= `${seconds}`;
     if (seconds == 20) {
         seconds = 0;
-        goingQuestions();
+        paintQuestions();
         totalPoints -=3
         console.log(totalPoints)
     }
-    enable(); //Comprueba cada segundo si hay algún check seleccionado para habilitar el botón (cada segundo por el setInterval)
+    enable();//Comprueba cada segundo si hay algún check seleccionado para habilitar el botón (cada segundo por el setInterval)
 }
 
 function enable(){
@@ -128,29 +131,31 @@ function enable(){
             btnSend.disabled = false;
         }
     }
-  }
+}
 
 //SELECCIONAR RESPUESTA Y PUNTOS
-btnSend.addEventListener('click', readUserAnswer);
-btnSend.addEventListener('click',goingQuestions);
 
+btnSend.addEventListener('click', readUserAnswer);
+btnSend.addEventListener('click',paintQuestions);
 
 function readUserAnswer() {
     const arrayRadioAnswers = document.querySelectorAll('.answer');
 
-
     for (let i = 0; i < arrayRadioAnswers.length; i++) {
         if (arrayRadioAnswers[i].checked) {
-            var optionChecked = arrayRadioAnswers[i];
+            optionChecked = arrayRadioAnswers[i];
         }
     }
-    let found = questionsWithAnswers.find(function(question) {
+    found = questionsWithAnswers.find(function(question) {
         const questionBox = document.querySelector('.questionBox');
         if (question.id == questionBox.id){
             return question
         }
     });
-//sacar las funciones que consiguen los id y llamarlas aqui
+    correctIncorrectAnswer(found, optionChecked)
+}
+
+function correctIncorrectAnswer(a, b){    
     if (found.answers[optionChecked.id].isCorrect == true){
         console.log('BIEN')
         msg.innerHTML = `<h3> ¡Correcta! </h3>`;
@@ -163,7 +168,6 @@ function readUserAnswer() {
         else {
             totalPoints;
         }
-        console.log(totalPoints)
     }
     else if (found.answers[optionChecked.id].isCorrect !== true) {
         console.log('MAL')
@@ -174,16 +178,11 @@ function readUserAnswer() {
         else if  (seconds <= 10){
             totalPoints -= 1;
         }
-        console.log(totalPoints)
     }
-
     scoreUI.innerHTML = ` ${totalPoints} puntos`
     console.log(totalPoints)
     seconds = 0;
 }
-
-
-
 
 
 // MARCADOR 
