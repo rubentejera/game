@@ -1,60 +1,60 @@
 function start() {
-    'use strict';
+'use strict';
 
-    const questionsWithAnswers = [{
-        id: 1,
-        question: "¿Cuál es la capital de Portugal?",
-        answers: [
-            { id: 0, answer: "Faro", isCorrect: false, idQuestion: 1 },
-            { id: 1, answer: "Oporto", isCorrect: false, idQuestion: 1 },
-            { id: 2, answer: "Lisboa", isCorrect: true, idQuestion: 1 }
-        ]
-    },
-    {
-        id: 2,
-        question: "¿Cuál es la capital de Egipto?",
-        answers: [
-            { id: 0, answer: "Faro", isCorrect: false, idQuestion: 2 },
-            { id: 1, answer: "El Cairo", isCorrect: true, idQuestion: 2 },
-            { id: 2, answer: "Lisboa", isCorrect: false, idQuestion: 2 }
-        ]
-    },
-    {
-        id: 3,
-        question: "¿Cuál es la capital de España?",
-        answers: [
-            { id: 0, answer: "Madrid", isCorrect: true, idQuestion: 3 },
-            { id: 1, answer: "Oporto", isCorrect: false, idQuestion: 3 },
-            { id: 2, answer: "Lisboa", isCorrect: false, idQuestion: 3 }
-        ]
-    },
-    {
-        id: 4,
-        question: "¿Cuál es la capital de Zambia?",
-        answers: [
-            { id: 0, answer: "Lusaka", isCorrect: true, idQuestion: 4 },
-            { id: 1, answer: "Oporto", isCorrect: false, idQuestion: 4 },
-            { id: 2, answer: "Lisboa", isCorrect: false, idQuestion: 4 }
-        ]
-    },
-    {
-        id: 5,
-        question: "¿Cuál es la capital de Jordania?",
-        answers: [
-            { id: 0, answer: "Madrid", isCorrect: false, idQuestion: 5 },
-            { id: 1, answer: "Amán", isCorrect: true, idQuestion: 5 },
-            { id: 2, answer: "Lisboa", isCorrect: false, idQuestion: 5 }
-        ]
-    },
-    {
-        id: 6,
-        question: "¿Cuál es la capital de Panama?",
-        answers: [
-            { id: 0, answer: "Madrid", isCorrect: false, idQuestion: 6 },
-            { id: 1, answer: "Oporto", isCorrect: false, idQuestion: 6 },
-            { id: 2, answer: "Ciudad de Panamá", isCorrect: true, idQuestion: 6 }
-        ]
-    }];
+const questionsWithAnswers = [{
+    id: 1,
+    question: "¿Cuál es la capital de Portugal?",
+    answers: [
+        { id: 0, answer: "Faro", isCorrect: false, idQuestion: 1 },
+        { id: 1, answer: "Oporto", isCorrect: false, idQuestion: 1 },
+        { id: 2, answer: "Lisboa", isCorrect: true, idQuestion: 1 }
+    ]
+},
+{
+    id: 2,
+    question: "¿Cuál es la capital de Egipto?",
+    answers: [
+        { id: 0, answer: "Faro", isCorrect: false, idQuestion: 2 },
+        { id: 1, answer: "El Cairo", isCorrect: true, idQuestion: 2 },
+        { id: 2, answer: "Lisboa", isCorrect: false, idQuestion: 2 }
+    ]
+},
+{
+    id: 3,
+    question: "¿Cuál es la capital de España?",
+    answers: [
+        { id: 0, answer: "Madrid", isCorrect: true, idQuestion: 3 },
+        { id: 1, answer: "Oporto", isCorrect: false, idQuestion: 3 },
+        { id: 2, answer: "Lisboa", isCorrect: false, idQuestion: 3 }
+    ]
+},
+{
+    id: 4,
+    question: "¿Cuál es la capital de Zambia?",
+    answers: [
+        { id: 0, answer: "Lusaka", isCorrect: true, idQuestion: 4 },
+        { id: 1, answer: "Oporto", isCorrect: false, idQuestion: 4 },
+        { id: 2, answer: "Lisboa", isCorrect: false, idQuestion: 4 }
+    ]
+},
+{
+    id: 5,
+    question: "¿Cuál es la capital de Jordania?",
+    answers: [
+        { id: 0, answer: "Madrid", isCorrect: false, idQuestion: 5 },
+        { id: 1, answer: "Amán", isCorrect: true, idQuestion: 5 },
+        { id: 2, answer: "Lisboa", isCorrect: false, idQuestion: 5 }
+    ]
+},
+{
+    id: 6,
+    question: "¿Cuál es la capital de Panama?",
+    answers: [
+        { id: 0, answer: "Madrid", isCorrect: false, idQuestion: 6 },
+        { id: 1, answer: "Oporto", isCorrect: false, idQuestion: 6 },
+        { id: 2, answer: "Ciudad de Panamá", isCorrect: true, idQuestion: 6 }
+    ]
+}];
 
 
 
@@ -73,52 +73,51 @@ let nameBox        = document.querySelector('.nameBox');
 let scoreUI = document.querySelector('.scoreUI');
 let totalPoints    = 0;
 let seconds        = 0;
-let sumPoints;       
+let sumPoints;
 let inSetInterval;
 btnSend.disabled   = true;
 let i = 0;
 
 
 
- function onStart() {
+function onStart() {
     btnStart.classList.toggle('invisible');
     btnSend.classList.toggle('invisible');
+    boxQuestions.classList.remove('invisible');
     i = 0;
     goingQuestions();
     inSetInterval = setInterval(startTimer,1000)
- }
- btnStart.addEventListener('click',onStart)
+    }
+    btnStart.addEventListener('click',onStart);
 
 //SUCESIÓN DE PREGUNTAS cada 20 segundos o cada vez que das al botón.
 //La función goingQuestion pinta las preguntas y las respuestas
 
 function goingQuestions() {
     if (i < questionsWithAnswers.length) {
-        boxQuestions.innerHTML = 
+        boxQuestions.innerHTML =
         `<div class="questionBox" id="${questionsWithAnswers[i].id}">${questionsWithAnswers[i].question}</div>`;
         for (let x = 0; x < questionsWithAnswers[i].answers.length; x++) {
             boxQuestions.innerHTML +=
                 `<div class="checkboxBox">
-         <input type="radio" id="${questionsWithAnswers[i].answers[x].id}" name="options" class="answer" value="${questionsWithAnswers[i].answers[x].answer}"/>
+            <input type="radio" id="${questionsWithAnswers[i].answers[x].id}" name="options" class="answer" value="${questionsWithAnswers[i].answers[x].answer}"/>
         <label for="${questionsWithAnswers[i].answers[x].id}">${questionsWithAnswers[i].answers[x].answer}</label>
         </div>`;
         }
         i++;
-    msg.innerHTML = '';  
+    msg.innerHTML = '';
     } else {
         nameBox.classList.toggle('invisible');
         btnSend.disabled   = true;
         stopTimer()
-        
-
-    }  
+    }
+    console.log(boxQuestions);
 }
- //Set interval con la función startTimer para que cada segundo compruebe que los segundos no han llegado a 20. 
- //Si llega a 20 ejecuta la función de pintar las preguntas, es decir, pasa a la siguiente y resta 3 puntos.
- //También comprueba acada segundo si hay algún check seleccionado para habilitar el botón.
+    //Set interval con la función startTimer para que cada segundo compruebe que los segundos no han llegado a 20.
+    //Si llega a 20 ejecuta la función de pintar las preguntas, es decir, pasa a la siguiente y resta 3 puntos.
+    //También comprueba acada segundo si hay algún check seleccionado para habilitar el botón.
 
 function startTimer() {
-    btnSend.disabled = true; //sacarlo de aqui
     seconds++;
     timer.innerHTML= `${seconds}`;
     if (seconds == 20) {
@@ -127,22 +126,26 @@ function startTimer() {
         totalPoints -=3
         console.log(totalPoints)
     }
+    enable();
+}
+
+function enable(){
+    btnSend.disabled = true;
     const arrayRadioAnswers = document.querySelectorAll('.answer');
     for (let i = 0; i < arrayRadioAnswers.length; i++) {
         if (arrayRadioAnswers[i].checked) {    
             btnSend.disabled = false;
         }
     }
-
-} 
+  }
 
 //SELECCIONAR RESPUESTA Y PUNTOS
-function readUserAnswer() { 
+function readUserAnswer() {
     const arrayRadioAnswers = document.querySelectorAll('.answer');
-    
-    
+
+
     for (let i = 0; i < arrayRadioAnswers.length; i++) {
-        if (arrayRadioAnswers[i].checked) {    
+        if (arrayRadioAnswers[i].checked) {
             var optionChecked = arrayRadioAnswers[i];
         }
     }
@@ -151,7 +154,7 @@ function readUserAnswer() {
         if (question.id == questionBox.id){
             return question
         }
-    });     
+    });
 //sacar las funciones que consiguen los id y llamarlas aqui
     if (found.answers[optionChecked.id].isCorrect == true){
         console.log('BIEN')
@@ -191,10 +194,10 @@ btnSend.addEventListener('click',goingQuestions);
 
 // MARCADOR Se guardan los nombres y las puntuaciones de cada jugador
 let score = {
-    	names:
-    	[],
-    	points:
-    	[]
+        names:
+        [],
+        points:
+        []
 };
 
 
@@ -215,9 +218,9 @@ function scoreAndName () {
     let add = '';
     //print score and name
     for (let i = 0;i < listNames.length; i++){
-        add += 
+        add +=
         `<li class="eachBoxPlayer">
-            ${listNames[i]} - <div class="actualPoints"> ${sumPoints[i]} puntos </div> 
+            ${listNames[i]} - <div class="actualPoints"> ${sumPoints[i]} puntos </div>
         </li>`;
     };
     scoreList.innerHTML= add;
@@ -232,26 +235,27 @@ function onSave () {
 function reset (){
     totalPoints = 0;
     let name = document.querySelector('#inputNameId').value = '';
-    nameBox.classList.toggle('invisible');
+    nameBox.classList.add('invisible');
     scoreUI.innerHTML = ` ${totalPoints} puntos`
     stopTimer();
     timer.innerHTML = '';
 
 }
+
 function removeBoxQuestions(){
     btnStart.classList.toggle('invisible');
     btnSend.classList.toggle('invisible');
-    boxQuestions.classList.toggle('invisible');
+    boxQuestions.classList.add('invisible');
     msg.innerHTML='';
- }
+    }
 
- function stopTimer(){
+function stopTimer(){
     seconds = 0;
     clearInterval(inSetInterval);
- }
+    }
 
 
- btnSave.addEventListener('click', onSave);
+btnSave.addEventListener('click', onSave);
 
 
 
