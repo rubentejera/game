@@ -69,7 +69,8 @@ const btnStart     = document.querySelector('.btnStart');
 const btnSave      = document.querySelector('.btnSave');
 let msg            = document.querySelector('.message');
 let timer          = document.querySelector('.seconds');
-let nameBox        = document.querySelector('.nameBox')
+let nameBox        = document.querySelector('.nameBox');
+let scoreUI = document.querySelector('.scoreUI');
 let totalPoints    = 0;
 let seconds        = 0;
 let sumPoints;       
@@ -82,6 +83,7 @@ let i = 0;
  function onStart() {
     btnStart.classList.toggle('invisible');
     btnSend.classList.toggle('invisible');
+    i = 0;
     goingQuestions();
     inSetInterval = setInterval(startTimer,1000)
  }
@@ -102,10 +104,13 @@ function goingQuestions() {
         </div>`;
         }
         i++;
-    msg.innerHTML = '';    
+    msg.innerHTML = '';  
     } else {
         nameBox.classList.toggle('invisible');
-        i = 0;
+        btnSend.disabled   = true;
+        stopTimer()
+        
+
     }  
 }
  //Set interval con la función startTimer para que cada segundo compruebe que los segundos no han llegado a 20. 
@@ -131,7 +136,6 @@ function startTimer() {
 
 } 
 
-let realP = document.querySelector('.realP'); //scoreUI
 //SELECCIONAR RESPUESTA Y PUNTOS
 function readUserAnswer() { 
     const arrayRadioAnswers = document.querySelectorAll('.answer');
@@ -175,7 +179,7 @@ function readUserAnswer() {
         console.log(totalPoints)
     }
 
-    realP.innerHTML = ` ${totalPoints} puntos`
+    scoreUI.innerHTML = ` ${totalPoints} puntos`
     console.log(totalPoints)
     seconds = 0;
 }
@@ -223,14 +227,13 @@ function onSave () {
     scoreAndName();
     reset();
     removeBoxQuestions();
-    stopTimer();
 }
 
 function reset (){
     totalPoints = 0;
     let name = document.querySelector('#inputNameId').value = '';
     nameBox.classList.toggle('invisible');
-    realP.innerHTML = ` ${totalPoints} puntos`
+    scoreUI.innerHTML = ` ${totalPoints} puntos`
     stopTimer();
     timer.innerHTML = '';
 

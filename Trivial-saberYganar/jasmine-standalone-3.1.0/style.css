@@ -41,7 +41,7 @@ body{
 }
 .time,
 .seconds, 
-.realP {
+.scoreUI {
     display:inline;
     text-align: left;
 }
