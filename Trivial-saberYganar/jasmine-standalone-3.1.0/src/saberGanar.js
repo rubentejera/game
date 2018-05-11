@@ -79,13 +79,13 @@ let i = 0;
 
 
 
- function startEverything(){
-    btnStart.classList.toggle('invisible')
-    btnSend.classList.toggle('invisible')
+ function onStart() {
+    btnStart.classList.toggle('invisible');
+    btnSend.classList.toggle('invisible');
     goingQuestions();
     inSetInterval = setInterval(startTimer,1000)
  }
- btnStart.addEventListener('click',startEverything)
+ btnStart.addEventListener('click',onStart)
 
 //SUCESIÓN DE PREGUNTAS cada 20 segundos o cada vez que das al botón.
 //La función goingQuestion pinta las preguntas y las respuestas
@@ -105,14 +105,15 @@ function goingQuestions() {
     msg.innerHTML = '';    
     } else {
         nameBox.classList.toggle('invisible');
-    }   
+        i = 0;
+    }  
 }
  //Set interval con la función startTimer para que cada segundo compruebe que los segundos no han llegado a 20. 
  //Si llega a 20 ejecuta la función de pintar las preguntas, es decir, pasa a la siguiente y resta 3 puntos.
  //También comprueba acada segundo si hay algún check seleccionado para habilitar el botón.
 
 function startTimer() {
-    btnSend.disabled = true;
+    btnSend.disabled = true; //sacarlo de aqui
     seconds++;
     timer.innerHTML= `${seconds}`;
     if (seconds == 20) {
@@ -130,7 +131,7 @@ function startTimer() {
 
 } 
 
-let realP = document.querySelector('.realP');
+let realP = document.querySelector('.realP'); //scoreUI
 //SELECCIONAR RESPUESTA Y PUNTOS
 function readUserAnswer() { 
     const arrayRadioAnswers = document.querySelectorAll('.answer');
@@ -147,7 +148,7 @@ function readUserAnswer() {
             return question
         }
     });     
-
+//sacar las funciones que consiguen los id y llamarlas aqui
     if (found.answers[optionChecked.id].isCorrect == true){
         console.log('BIEN')
         msg.innerHTML = `<h3> ¡Correcta! </h3>`;
@@ -208,6 +209,7 @@ function scoreAndName () {
     console.log(sumPoints);
     //Para que se guarden uno después de otro, se acumulen.
     let add = '';
+    //print score and name
     for (let i = 0;i < listNames.length; i++){
         add += 
         `<li class="eachBoxPlayer">
@@ -217,12 +219,15 @@ function scoreAndName () {
     scoreList.innerHTML= add;
 }
 
-btnSave.addEventListener('click', scoreAndName);
-btnSave.addEventListener('click', reset);
-
+function onSave () {
+    scoreAndName();
+    reset();
+    removeBoxQuestions();
+    stopTimer();
+}
 
 function reset (){
-    totalPoints=0;
+    totalPoints = 0;
     let name = document.querySelector('#inputNameId').value = '';
     nameBox.classList.toggle('invisible');
     realP.innerHTML = ` ${totalPoints} puntos`
@@ -236,14 +241,14 @@ function removeBoxQuestions(){
     boxQuestions.classList.toggle('invisible');
     msg.innerHTML='';
  }
- btnSave.addEventListener('click', removeBoxQuestions);
- btnSave.addEventListener('click', stopTimer)
 
  function stopTimer(){
+    seconds = 0;
     clearInterval(inSetInterval);
  }
 
 
+ btnSave.addEventListener('click', onSave);
 
 
 
