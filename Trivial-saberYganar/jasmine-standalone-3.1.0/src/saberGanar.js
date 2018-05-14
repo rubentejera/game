@@ -147,8 +147,15 @@ function start() {
 
 //SELECCIONAR RESPUESTA Y PUNTOS
 
-    btnSend.addEventListener('click', getUserAnswerInterface);
-    btnSend.addEventListener('click', paintQuestions);
+    // btnSend.addEventListener('click', getUserAnswerInterface);
+    // btnSend.addEventListener('click', paintQuestions);
+    btnSend.addEventListener('click', verifyAnswer);
+
+    function verifyAnswer(){
+        getUserAnswerInterface();
+        checkAnswer(found, optionChecked);
+        paintQuestions();
+    }
 
     function getUserAnswerInterface() {
         const arrayRadioAnswers = document.querySelectorAll('.answer');
@@ -164,7 +171,6 @@ function start() {
                 return question
             }
         });
-        checkAnswer(found, optionChecked)
     }
 
     function checkAnswer() {
