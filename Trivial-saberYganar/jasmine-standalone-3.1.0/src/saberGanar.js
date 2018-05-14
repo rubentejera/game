@@ -165,7 +165,7 @@ function readUserAnswer() {
     }
     found = questionsWithAnswers.find(function(question) {
         const questionBox = document.querySelector('.questionBox');
-        if (question.id === questionBox.id){
+        if (question.id === parseInt(questionBox.id)){
             return question
         }
     });
