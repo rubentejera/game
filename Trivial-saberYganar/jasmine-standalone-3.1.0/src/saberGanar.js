@@ -147,10 +147,10 @@ function start() {
 
 //SELECCIONAR RESPUESTA Y PUNTOS
 
-    btnSend.addEventListener('click', readUserAnswer);
+    btnSend.addEventListener('click', getUserAnswerInterface);
     btnSend.addEventListener('click', paintQuestions);
 
-    function readUserAnswer() {
+    function getUserAnswerInterface() {
         const arrayRadioAnswers = document.querySelectorAll('.answer');
 
         for (let i = 0; i < arrayRadioAnswers.length; i++) {
