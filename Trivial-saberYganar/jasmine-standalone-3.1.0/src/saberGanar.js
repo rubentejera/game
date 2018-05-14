@@ -55,11 +55,11 @@ function start() {
 
 const boxQuestions = document.querySelector('.questions');
 const btnSend      = document.querySelector('.btn');
-const btnNext      = document.querySelector('.btnNext');
+// const btnNext      = document.querySelector('.btnNext');
 const btnStart     = document.querySelector('.btnStart');
 const btnSave      = document.querySelector('.btnSave');
 let msg            = document.querySelector('.message');
-let timer          = document.querySelector('.seconds');
+let clock          = document.querySelector('.seconds');
 let nameBox        = document.querySelector('.nameBox');
 let scoreUI        = document.querySelector('.scoreUI');
 let totalPoints    = 0;
@@ -69,7 +69,7 @@ let sumPoints;
 let listNames;
 let found;
 let optionChecked;
-let inSetInterval;
+let timer;
 btnSend.disabled   = true;
 
 
@@ -77,13 +77,14 @@ btnSend.disabled   = true;
 //INICIALIZA el juego y el tiempo
 
 btnStart.addEventListener('click',onStart);
+
 function onStart() {
     btnStart.classList.toggle('invisible');
     btnSend.classList.toggle('invisible');
     boxQuestions.classList.remove('invisible');
     i = 0;
     paintQuestions();
-    inSetInterval = setInterval(startTimer, 1000) //El setInterval en una variable par luego utilizarla con el clearInterval
+    timer = setInterval(updateTimer, 1000) //El setInterval en una variable par luego utilizarla con el clearInterval
 }
 
 
@@ -111,18 +112,33 @@ function paintQuestions() {
 //Set interval con la función startTimer para que cada segundo compruebe que los segundos no han llegado a 20.
 //Si llega a 20 ejecuta la función de pintar las preguntas, es decir, pasa a la siguiente y resta 3 puntos.
 
-function startTimer() {
+function updateTimer() {
     seconds++;
-    timer.innerHTML= `${seconds}`;
-    if (seconds == 20) {
+    clock.innerHTML= `${seconds}`;
+    if (seconds === 20) {
         seconds = 0;
         paintQuestions();
-        totalPoints -=3
-        console.log(totalPoints)
-        printScoreUIRealTime()
+        totalPoints -=3;
+        console.log(totalPoints);
+        printScoreUIRealTime();
     }
     enable();//Comprueba cada segundo si hay algún check seleccionado para habilitar el botón (cada segundo por el setInterval)
 }
+
+//RESETEA temporizador y puntos y lo deja preparado para iniciar el juego de nuevo
+
+    function stopTimer(){
+        seconds = 0;
+        clearInterval(timer);
+    }
+
+    function resetTimeAndPoints(){
+        totalPoints = 0;
+        printScoreUIRealTime();
+        stopTimer();
+        clock.innerHTML = '';
+    }
+
 
 function enable(){
     btnSend.disabled = true;
@@ -149,16 +165,16 @@ function readUserAnswer() {
     }
     found = questionsWithAnswers.find(function(question) {
         const questionBox = document.querySelector('.questionBox');
-        if (question.id == questionBox.id){
+        if (question.id === questionBox.id){
             return question
         }
     });
     correctIncorrectAnswer(found, optionChecked)
 }
 
-function correctIncorrectAnswer(a, b){    
-    if (found.answers[optionChecked.id].isCorrect == true){
-        console.log('BIEN')
+function correctIncorrectAnswer(){
+    if (found.answers[optionChecked.id].isCorrect === true){
+        console.log('BIEN');
         msg.innerHTML = `<h3> ¡Correcta! </h3>`;
         if (seconds <= 2) {
             totalPoints += 2;
@@ -167,11 +183,11 @@ function correctIncorrectAnswer(a, b){
             totalPoints += 1;
         }
         else {
-            totalPoints;
+            return totalPoints;
         }
     }
     else if (found.answers[optionChecked.id].isCorrect !== true) {
-        console.log('MAL')
+        console.log('MAL');
         msg.innerHTML = `<h3> ¡Incorrecta! </h3>`;
         if (seconds >= 11) {
             totalPoints -= 2;
@@ -180,8 +196,8 @@ function correctIncorrectAnswer(a, b){
             totalPoints -= 1;
         }
     }
-    printScoreUIRealTime()
-    console.log(totalPoints)
+    printScoreUIRealTime();
+    console.log(totalPoints);
     seconds = 0;
 }
 
@@ -209,7 +225,7 @@ let score = { //Se guardan los nombres y las puntuaciones de cada jugador
 
 function saveScoreAndName() {
     let name = document.querySelector('#inputNameId').value;
-    score.names.push(name);;
+    score.names.push(name);
     listNames = score.names;
         console.log(listNames);
     score.points.push(totalPoints);
@@ -218,7 +234,7 @@ function saveScoreAndName() {
     printScoreAndName(listNames, sumPoints)
 }
 
-function printScoreAndName(a,b) {
+function printScoreAndName() {
     let scoreList = document.querySelector('.list');
     let add = '';
     for (let i = 0;i < listNames.length; i++){
@@ -226,28 +242,16 @@ function printScoreAndName(a,b) {
         `<li class="eachBoxPlayer">
             ${listNames[i]} - <div class="actualPoints"> ${sumPoints[i]} puntos </div>
         </li>`;
-    };
+    }
     scoreList.innerHTML= add;
 }
 
 
 
-//RESETEA temporizador y puntos y lo deja preparado para iniciar el juego de nuevo
 
-function stopTimer(){
-    seconds = 0;
-    clearInterval(inSetInterval);
-}
-
-function resetTimeAndPoints(){
-    totalPoints = 0;
-    printScoreUIRealTime()
-    stopTimer();
-    timer.innerHTML = '';
-}
 
 function cleanButtonsAndBoxes(){
-    let name = document.querySelector('#inputNameId').value = '';
+    // let name = document.querySelector('#inputNameId').value = '';
     btnStart.classList.toggle('invisible');
     btnSend.classList.toggle('invisible');
     boxQuestions.classList.add('invisible');
