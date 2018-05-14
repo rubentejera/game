@@ -164,10 +164,10 @@ function start() {
                 return question
             }
         });
-        correctIncorrectAnswer(found, optionChecked)
+        checkAnswer(found, optionChecked)
     }
 
-    function correctIncorrectAnswer() {
+    function checkAnswer() {
         if (found.answers[optionChecked.id].isCorrect === true) {
             console.log('BIEN');
             msg.innerHTML = `<h3> ¡Correcta! </h3>`;
