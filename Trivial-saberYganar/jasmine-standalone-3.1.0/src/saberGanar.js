@@ -119,6 +119,7 @@ function startTimer() {
         paintQuestions();
         totalPoints -=3
         console.log(totalPoints)
+        printScoreUIRealTime()
     }
     enable();//Comprueba cada segundo si hay algún check seleccionado para habilitar el botón (cada segundo por el setInterval)
 }
@@ -179,11 +180,15 @@ function correctIncorrectAnswer(a, b){
             totalPoints -= 1;
         }
     }
-    scoreUI.innerHTML = ` ${totalPoints} puntos`
+    printScoreUIRealTime()
     console.log(totalPoints)
     seconds = 0;
 }
 
+
+function printScoreUIRealTime() {
+    scoreUI.innerHTML = ` ${totalPoints} puntos`
+}
 
 // MARCADOR 
 
@@ -236,7 +241,7 @@ function stopTimer(){
 
 function resetTimeAndPoints(){
     totalPoints = 0;
-    scoreUI.innerHTML = ` ${totalPoints} puntos`
+    printScoreUIRealTime()
     stopTimer();
     timer.innerHTML = '';
 }
