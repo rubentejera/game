@@ -207,6 +207,7 @@ function start() {
 
     function onSave() {
         saveScoreAndName();
+        updateGeneralScoreboardInterface();
         resetTimeAndPoints();
         cleanButtonsAndBoxes();
     }
@@ -226,7 +227,6 @@ function start() {
         score.points.push(totalPoints);
         sumPoints = score.points;
         console.log(sumPoints);
-        updateGeneralScoreboardInterface(listNames, sumPoints)
     }
 
     function cleanButtonsAndBoxes() {
