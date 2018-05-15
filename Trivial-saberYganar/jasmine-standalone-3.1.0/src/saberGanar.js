@@ -135,8 +135,8 @@ function start() {
     }
 
 
-    function enable() {
-        btnSend.disabled = true;
+    function enable() {//Por aqui
+        // btnSend.disabled = true;
         const arrayRadioAnswers = document.querySelectorAll('.answer');
         for (let i = 0; i < arrayRadioAnswers.length; i++) {
             if (arrayRadioAnswers[i].checked) {
@@ -147,13 +147,11 @@ function start() {
 
 //SELECCIONAR RESPUESTA Y PUNTOS
 
-    // btnSend.addEventListener('click', getUserAnswerInterface);
-    // btnSend.addEventListener('click', paintQuestions);
     btnSend.addEventListener('click', verifyAnswer);
 
     function verifyAnswer(){
         getUserAnswerInterface();
-        checkAnswer(found, optionChecked);
+        checkAnswer();
         paintQuestions();
     }
 
@@ -200,6 +198,7 @@ function start() {
         updateScoreInterface();
         console.log(totalPoints);
         seconds = 0;
+        btnSend.disabled = true;
     }
 
 
